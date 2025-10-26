@@ -135,4 +135,47 @@ app.get("/make-server-7d6c9568/downloads", async (c) => {
   }
 });
 
+// Get all comments
+app.get("/make-server-7d6c9568/comments", async (c) => {
+  try {
+    const comments = await kv.getByPrefix("comment:");
+    // Sort by timestamp descending (newest first)
+    const sortedComments = comments.sort((a, b) => b.timestamp - a.timestamp);
+    return c.json({ comments: sortedComments });
+  } catch (error) {
+    console.log('Server error while fetching comments:', error);
+    return c.json({ error: 'Failed to fetch comments', details: String(error) }, 500);
+  }
+});
+
+// Post a new comment
+app.post("/make-server-7d6c9568/comments", async (c) => {
+  try {
+    const body = await c.req.json();
+    const { email, comment } = body;
+
+    if (!email || !comment) {
+      return c.json({ error: 'Email and comment are required' }, 400);
+    }
+
+    if (comment.length > 1000) {
+      return c.json({ error: 'Comment is too long (max 1000 characters)' }, 400);
+    }
+
+    const id = `comment:${Date.now()}-${Math.random().toString(36).substring(7)}`;
+    const commentData = {
+      id,
+      email: email.substring(0, 100), // Limit email length
+      comment: comment.substring(0, 1000),
+      timestamp: Date.now()
+    };
+
+    await kv.set(id, commentData);
+    return c.json({ success: true, comment: commentData });
+  } catch (error) {
+    console.log('Server error while posting comment:', error);
+    return c.json({ error: 'Failed to post comment', details: String(error) }, 500);
+  }
+});
+
 Deno.serve(app.fetch);

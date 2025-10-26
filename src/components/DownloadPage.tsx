@@ -1,4 +1,4 @@
-import { ArrowLeft, Download, Apple, Monitor } from 'lucide-react';
+import { ArrowLeft, Download, Apple, Monitor, Send } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { projectId, publicAnonKey } from '../utils/supabase/info';
 
@@ -11,12 +11,29 @@ interface DownloadFile {
   filename: string;
 }
 
+interface Comment {
+  id: string;
+  email: string;
+  comment: string;
+  timestamp: number;
+}
+
 export default function DownloadPage({ onBack }: DownloadPageProps) {
   const [dmgFile, setDmgFile] = useState<DownloadFile | null>(null);
   const [exeFile, setExeFile] = useState<DownloadFile | null>(null);
   const [loading, setLoading] = useState(true);
+  
+  // Comments state
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [commentsLoading, setCommentsLoading] = useState(true);
+  const [email, setEmail] = useState('');
+  const [comment, setComment] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
+    // Scroll to top on page load
+    window.scrollTo(0, 0);
+
     async function fetchDownloads() {
       try {
         const response = await fetch(
@@ -52,6 +69,83 @@ export default function DownloadPage({ onBack }: DownloadPageProps) {
 
     fetchDownloads();
   }, []);
+
+  // Fetch comments
+  useEffect(() => {
+    async function fetchComments() {
+      try {
+        const response = await fetch(
+          `https://${projectId}.supabase.co/functions/v1/make-server-7d6c9568/comments`,
+          {
+            headers: {
+              'Authorization': `Bearer ${publicAnonKey}`
+            }
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setComments(data.comments || []);
+        } else {
+          console.error('Failed to fetch comments');
+        }
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      } finally {
+        setCommentsLoading(false);
+      }
+    }
+
+    fetchComments();
+  }, []);
+
+  // Submit comment
+  const handleSubmitComment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email.trim() || !comment.trim()) {
+      alert('이메일과 의견을 모두 입력해주세요.');
+      return;
+    }
+
+    // Simple email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      alert('올바른 이메일 주소를 입력해주세요.');
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const response = await fetch(
+        `https://${projectId}.supabase.co/functions/v1/make-server-7d6c9568/comments`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${publicAnonKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: email.trim(), comment: comment.trim() })
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setComments([data.comment, ...comments]);
+        setEmail('');
+        setComment('');
+        alert('의견이 성공적으로 등록되었습니다!');
+      } else {
+        const errorData = await response.json();
+        alert(`등록 실패: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error('Error submitting comment:', error);
+      alert('의견 등록 중 오류가 발생했습니다.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#3D2F2A', color: '#F5E6D3' }}>
@@ -283,6 +377,243 @@ export default function DownloadPage({ onBack }: DownloadPageProps) {
             <p>
               For support, contact us via Instagram @teamoffline or email.
             </p>
+          </div>
+
+          {/* Scroll hint */}
+          <div className="mt-16 flex flex-col items-center animate-bounce">
+            <div 
+              className="mb-2 uppercase text-center"
+              style={{
+                fontFamily: 'IBM Plex Mono, monospace',
+                fontSize: '0.75rem',
+                letterSpacing: '0.1em',
+                color: '#F5E6D3',
+                opacity: 0.6
+              }}
+            >
+              아래로 스크롤하여 의견 남기기
+            </div>
+            <svg 
+              width="24" 
+              height="24" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="#F5E6D3" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+              style={{ opacity: 0.6 }}
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+        </div>
+
+        {/* Comments Section */}
+        <div className="max-w-4xl w-full mt-24 px-16 pb-24">
+          <div 
+            className="w-24 h-px mx-auto mb-12" 
+            style={{ backgroundColor: '#F5E6D3' }}
+          />
+
+          <h2 
+            className="mb-12 uppercase text-center"
+            style={{ 
+              fontFamily: 'League Spartan, sans-serif',
+              fontSize: '2rem',
+              color: '#F5E6D3',
+              letterSpacing: '0.08em'
+            }}
+          >
+            피드백, 오류 또는 의견을 남겨주세요
+          </h2>
+
+          {/* Comment Form */}
+          <form 
+            onSubmit={handleSubmitComment}
+            className="mb-16 p-8"
+            style={{ 
+              border: '3px solid #F5E6D3',
+              backgroundColor: '#2C231F'
+            }}
+          >
+            <div className="mb-6">
+              <label 
+                htmlFor="email"
+                className="block mb-2 uppercase"
+                style={{
+                  fontFamily: 'IBM Plex Mono, monospace',
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.08em',
+                  color: '#F5E6D3',
+                  opacity: 0.8
+                }}
+              >
+                이메일
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                maxLength={100}
+                placeholder="your@email.com"
+                className="w-full px-4 py-3"
+                style={{
+                  backgroundColor: '#3D2F2A',
+                  border: '2px solid #F5E6D3',
+                  color: '#F5E6D3',
+                  fontFamily: 'IBM Plex Mono, monospace',
+                  fontSize: '0.875rem',
+                  outline: 'none'
+                }}
+              />
+            </div>
+
+            <div className="mb-6">
+              <label 
+                htmlFor="comment"
+                className="block mb-2 uppercase"
+                style={{
+                  fontFamily: 'IBM Plex Mono, monospace',
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.08em',
+                  color: '#F5E6D3',
+                  opacity: 0.8
+                }}
+              >
+                의견
+              </label>
+              <textarea
+                id="comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                maxLength={1000}
+                rows={5}
+                placeholder="어떤 기능이 있으면 좋겠습니다..."
+                className="w-full px-4 py-3 resize-none"
+                style={{
+                  backgroundColor: '#3D2F2A',
+                  border: '2px solid #F5E6D3',
+                  color: '#F5E6D3',
+                  fontFamily: 'IBM Plex Mono, monospace',
+                  fontSize: '0.875rem',
+                  lineHeight: '1.6',
+                  outline: 'none'
+                }}
+              />
+              <div 
+                className="mt-2 text-right"
+                style={{
+                  fontFamily: 'IBM Plex Mono, monospace',
+                  fontSize: '0.7rem',
+                  color: '#F5E6D3',
+                  opacity: 0.5
+                }}
+              >
+                {comment.length}/1000
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={submitting}
+              className="inline-flex items-center gap-3 px-8 py-3 transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{
+                backgroundColor: '#F5E6D3',
+                color: '#2C231F',
+                fontFamily: 'IBM Plex Mono, monospace',
+                fontSize: '0.875rem',
+                letterSpacing: '0.08em',
+                fontWeight: '600',
+                border: 'none',
+                cursor: submitting ? 'not-allowed' : 'pointer'
+              }}
+            >
+              <Send size={18} />
+              {submitting ? 'SUBMITTING...' : 'SUBMIT'}
+            </button>
+          </form>
+
+          {/* Comments List */}
+          <div className="space-y-6">
+            {commentsLoading ? (
+              <div 
+                className="text-center py-8"
+                style={{
+                  fontFamily: 'IBM Plex Mono, monospace',
+                  fontSize: '0.875rem',
+                  color: '#F5E6D3',
+                  opacity: 0.6
+                }}
+              >
+                Loading comments...
+              </div>
+            ) : comments.length === 0 ? (
+              <div 
+                className="text-center py-8"
+                style={{
+                  fontFamily: 'IBM Plex Mono, monospace',
+                  fontSize: '0.875rem',
+                  color: '#F5E6D3',
+                  opacity: 0.5
+                }}
+              >
+                아직 의견이 없습니다. 첫 번째로 의견을 남겨주세요!
+              </div>
+            ) : (
+              comments.map((c) => (
+                <div 
+                  key={c.id}
+                  className="p-6"
+                  style={{ 
+                    border: '2px solid rgba(245, 230, 211, 0.3)',
+                    backgroundColor: '#2C231F'
+                  }}
+                >
+                  <div className="flex justify-between items-start mb-3">
+                    <div 
+                      style={{
+                        fontFamily: 'IBM Plex Mono, monospace',
+                        fontSize: '0.875rem',
+                        color: '#F5E6D3',
+                        fontWeight: '600'
+                      }}
+                    >
+                      {c.email}
+                    </div>
+                    <div 
+                      style={{
+                        fontFamily: 'IBM Plex Mono, monospace',
+                        fontSize: '0.7rem',
+                        color: '#F5E6D3',
+                        opacity: 0.5
+                      }}
+                    >
+                      {new Date(c.timestamp).toLocaleDateString('ko-KR', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </div>
+                  </div>
+                  <div 
+                    style={{
+                      fontFamily: 'IBM Plex Mono, monospace',
+                      fontSize: '0.875rem',
+                      color: '#F5E6D3',
+                      lineHeight: '1.6',
+                      opacity: 0.9,
+                      whiteSpace: 'pre-wrap'
+                    }}
+                  >
+                    {c.comment}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </main>
