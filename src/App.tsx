@@ -25,7 +25,7 @@ export default function App() {
       id: 3,
       appName: 'Wish to Real',
       description: 'Inspiration button, utilizing ForNeed relationships.',
-      available: false
+      available: true
     },
     {
       id: 4,
