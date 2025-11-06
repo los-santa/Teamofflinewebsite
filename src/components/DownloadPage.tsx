@@ -112,14 +112,14 @@ export default function DownloadPage({ onBack, appName, description }: DownloadP
     e.preventDefault();
     
     if (!email.trim() || !comment.trim()) {
-      alert('이메일과 의견을 모두 입력해주세요.');
+      alert('Please enter both email and comment.');
       return;
     }
 
     // Simple email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email.trim())) {
-      alert('올바른 이메일 주소를 입력해주세요.');
+      alert('Please enter a valid email address.');
       return;
     }
 
@@ -142,14 +142,14 @@ export default function DownloadPage({ onBack, appName, description }: DownloadP
         setComments([data.comment, ...comments]);
         setEmail('');
         setComment('');
-        alert('의견이 성공적으로 등록되었습니다!');
+        alert('Comment submitted successfully!');
       } else {
         const errorData = await response.json();
-        alert(`등록 실패: ${errorData.error}`);
+        alert(`Failed to submit: ${errorData.error}`);
       }
     } catch (error) {
       console.error('Error submitting comment:', error);
-      alert('의견 등록 중 오류가 발생했습니다.');
+      alert('An error occurred while submitting your comment.');
     } finally {
       setSubmitting(false);
     }
@@ -401,7 +401,7 @@ export default function DownloadPage({ onBack, appName, description }: DownloadP
                 opacity: 0.6
               }}
             >
-              아래로 스크롤하여 의견 남기기
+              SCROLL DOWN TO LEAVE A COMMENT
             </div>
             <svg 
               width="24" 
@@ -435,7 +435,7 @@ export default function DownloadPage({ onBack, appName, description }: DownloadP
               letterSpacing: '0.08em'
             }}
           >
-            피드백, 오류 또는 의견을 남겨주세요
+            LEAVE FEEDBACK, REPORT BUGS, OR SHARE YOUR THOUGHTS
           </h2>
 
           {/* Comment Form */}
@@ -459,7 +459,7 @@ export default function DownloadPage({ onBack, appName, description }: DownloadP
                   opacity: 0.8
                 }}
               >
-                이메일
+                EMAIL
               </label>
               <input
                 id="email"
@@ -492,7 +492,7 @@ export default function DownloadPage({ onBack, appName, description }: DownloadP
                   opacity: 0.8
                 }}
               >
-                의견
+                COMMENT
               </label>
               <textarea
                 id="comment"
@@ -500,7 +500,7 @@ export default function DownloadPage({ onBack, appName, description }: DownloadP
                 onChange={(e) => setComment(e.target.value)}
                 maxLength={1000}
                 rows={5}
-                placeholder="어떤 기능이 있으면 좋겠습니다..."
+                placeholder="I'd love to see a feature that..."
                 className="w-full px-4 py-3 resize-none"
                 style={{
                   backgroundColor: '#3D2F2A',
@@ -569,7 +569,7 @@ export default function DownloadPage({ onBack, appName, description }: DownloadP
                   opacity: 0.5
                 }}
               >
-                아직 의견이 없습니다. 첫 번째로 의견을 남겨주세요!
+                No comments yet. Be the first to share your thoughts!
               </div>
             ) : (
               comments.map((c) => (
