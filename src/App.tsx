@@ -8,6 +8,7 @@ import DownloadPage from './components/DownloadPage';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<'home' | 'download'>('home');
+  const [selectedProduct, setSelectedProduct] = useState<{ appName: string; description: string } | null>(null);
   const products = [
     {
       id: 1,
@@ -57,10 +58,25 @@ export default function App() {
       description: 'What exactly you did.',
       available: false
     },
+    {
+      id: 9,
+      appName: 'Operater',
+      description: 'Business management and operations tool',
+      available: false
+    },
   ];
 
-  if (currentPage === 'download') {
-    return <DownloadPage onBack={() => setCurrentPage('home')} />;
+  if (currentPage === 'download' && selectedProduct) {
+    return (
+      <DownloadPage 
+        onBack={() => {
+          setCurrentPage('home');
+          setSelectedProduct(null);
+        }} 
+        appName={selectedProduct.appName}
+        description={selectedProduct.description}
+      />
+    );
   }
 
   return (
@@ -79,7 +95,10 @@ export default function App() {
               appName={product.appName}
               description={product.description}
               available={product.available}
-              onClick={product.appName === 'ForNeed' ? () => setCurrentPage('download') : undefined}
+              onClick={() => {
+                setSelectedProduct({ appName: product.appName, description: product.description });
+                setCurrentPage('download');
+              }}
             />
           ))}
         </div>

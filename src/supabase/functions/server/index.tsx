@@ -135,10 +135,16 @@ app.get("/make-server-7d6c9568/downloads", async (c) => {
   }
 });
 
-// Get all comments
+// Get all comments for a specific app
 app.get("/make-server-7d6c9568/comments", async (c) => {
   try {
-    const comments = await kv.getByPrefix("comment:");
+    const appName = c.req.query('appName') || '';
+    if (!appName) {
+      return c.json({ error: 'appName query parameter is required' }, 400);
+    }
+    
+    const prefix = `comment:${appName}:`;
+    const comments = await kv.getByPrefix(prefix);
     // Sort by timestamp descending (newest first)
     const sortedComments = comments.sort((a, b) => b.timestamp - a.timestamp);
     return c.json({ comments: sortedComments });
@@ -152,22 +158,24 @@ app.get("/make-server-7d6c9568/comments", async (c) => {
 app.post("/make-server-7d6c9568/comments", async (c) => {
   try {
     const body = await c.req.json();
-    const { email, comment } = body;
+    const { appName, email, comment } = body;
 
-    if (!email || !comment) {
-      return c.json({ error: 'Email and comment are required' }, 400);
+    if (!appName || !email || !comment) {
+      return c.json({ error: 'appName, email and comment are required' }, 400);
     }
 
     if (comment.length > 1000) {
       return c.json({ error: 'Comment is too long (max 1000 characters)' }, 400);
     }
 
-    const id = `comment:${Date.now()}-${Math.random().toString(36).substring(7)}`;
+    const timestamp = Date.now();
+    const randomId = Math.random().toString(36).substring(7);
+    const id = `comment:${appName}:${timestamp}-${randomId}`;
     const commentData = {
       id,
       email: email.substring(0, 100), // Limit email length
       comment: comment.substring(0, 1000),
-      timestamp: Date.now()
+      timestamp
     };
 
     await kv.set(id, commentData);

@@ -4,6 +4,8 @@ import { projectId, publicAnonKey } from '../utils/supabase/info';
 
 interface DownloadPageProps {
   onBack: () => void;
+  appName: string;
+  description: string;
 }
 
 interface DownloadFile {
@@ -18,7 +20,7 @@ interface Comment {
   timestamp: number;
 }
 
-export default function DownloadPage({ onBack }: DownloadPageProps) {
+export default function DownloadPage({ onBack, appName, description }: DownloadPageProps) {
   const [dmgFile, setDmgFile] = useState<DownloadFile | null>(null);
   const [exeFile, setExeFile] = useState<DownloadFile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -33,6 +35,12 @@ export default function DownloadPage({ onBack }: DownloadPageProps) {
   useEffect(() => {
     // Scroll to top on page load
     window.scrollTo(0, 0);
+
+    // Only fetch downloads for ForNeed
+    if (appName !== 'ForNeed') {
+      setLoading(false);
+      return;
+    }
 
     async function fetchDownloads() {
       try {
@@ -68,14 +76,14 @@ export default function DownloadPage({ onBack }: DownloadPageProps) {
     }
 
     fetchDownloads();
-  }, []);
+  }, [appName]);
 
   // Fetch comments
   useEffect(() => {
     async function fetchComments() {
       try {
         const response = await fetch(
-          `https://${projectId}.supabase.co/functions/v1/make-server-7d6c9568/comments`,
+          `https://${projectId}.supabase.co/functions/v1/make-server-7d6c9568/comments?appName=${encodeURIComponent(appName)}`,
           {
             headers: {
               'Authorization': `Bearer ${publicAnonKey}`
@@ -97,7 +105,7 @@ export default function DownloadPage({ onBack }: DownloadPageProps) {
     }
 
     fetchComments();
-  }, []);
+  }, [appName]);
 
   // Submit comment
   const handleSubmitComment = async (e: React.FormEvent) => {
@@ -125,7 +133,7 @@ export default function DownloadPage({ onBack }: DownloadPageProps) {
             'Authorization': `Bearer ${publicAnonKey}`,
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ email: email.trim(), comment: comment.trim() })
+          body: JSON.stringify({ appName, email: email.trim(), comment: comment.trim() })
         }
       );
 
@@ -180,7 +188,7 @@ export default function DownloadPage({ onBack }: DownloadPageProps) {
               letterSpacing: '0.05em'
             }}
           >
-            ForNeed
+            {appName}
           </h1>
 
           <p 
@@ -193,7 +201,7 @@ export default function DownloadPage({ onBack }: DownloadPageProps) {
               opacity: 0.8
             }}
           >
-            Task optimization by relation
+            {description}
           </p>
 
           <div 
@@ -240,7 +248,7 @@ export default function DownloadPage({ onBack }: DownloadPageProps) {
                   macOS
                 </div>
 
-                {dmgFile ? (
+                {appName === 'ForNeed' && dmgFile ? (
                   <>
                     <a
                       href={dmgFile.url}
@@ -274,15 +282,16 @@ export default function DownloadPage({ onBack }: DownloadPageProps) {
                   </>
                 ) : (
                   <div 
-                    className="text-center"
+                    className="text-center uppercase"
                     style={{
                       fontFamily: 'IBM Plex Mono, monospace',
                       fontSize: '0.875rem',
+                      letterSpacing: '0.08em',
                       color: '#F5E6D3',
-                      opacity: 0.4
+                      opacity: 0.5
                     }}
                   >
-                    Not available
+                    COMING SOON
                   </div>
                 )}
               </div>
@@ -311,7 +320,7 @@ export default function DownloadPage({ onBack }: DownloadPageProps) {
                   Windows
                 </div>
 
-                {exeFile ? (
+                {appName === 'ForNeed' && exeFile ? (
                   <>
                     <a
                       href={exeFile.url}
@@ -345,15 +354,16 @@ export default function DownloadPage({ onBack }: DownloadPageProps) {
                   </>
                 ) : (
                   <div 
-                    className="text-center"
+                    className="text-center uppercase"
                     style={{
                       fontFamily: 'IBM Plex Mono, monospace',
                       fontSize: '0.875rem',
+                      letterSpacing: '0.08em',
                       color: '#F5E6D3',
-                      opacity: 0.4
+                      opacity: 0.5
                     }}
                   >
-                    Not available
+                    COMING SOON
                   </div>
                 )}
               </div>
