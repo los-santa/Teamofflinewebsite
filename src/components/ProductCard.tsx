@@ -11,8 +11,8 @@ export default function ProductCard({ appName, description, available, onClick }
       <div 
         className="relative w-72 h-72 rounded-full flex flex-col items-center justify-center p-8 transition-all duration-300 group-hover:scale-103"
         style={{ 
-          border: '3px solid #F5E6D3',
-          backgroundColor: '#2C231F',
+          border: available ? '3px solid #3D2F2A' : '3px solid #F5E6D3',
+          backgroundColor: available ? '#F5E6D3' : '#2C231F',
           cursor: onClick ? 'pointer' : 'default'
         }}
         onClick={onClick}
@@ -21,8 +21,8 @@ export default function ProductCard({ appName, description, available, onClick }
           <div 
             className="absolute top-8 uppercase"
             style={{
-              backgroundColor: '#F5E6D3',
-              color: '#2C231F',
+              backgroundColor: '#3D2F2A',
+              color: '#F5E6D3',
               padding: '4px 12px',
               fontFamily: 'IBM Plex Mono, monospace',
               fontSize: '0.625rem',
@@ -38,7 +38,7 @@ export default function ProductCard({ appName, description, available, onClick }
           <h3 
             className="uppercase" 
             style={{ 
-              color: '#F5E6D3', 
+              color: available ? '#3D2F2A' : '#F5E6D3', 
               fontFamily: 'League Spartan, sans-serif',
               fontSize: '1.75rem',
               letterSpacing: '0.08em',
@@ -51,12 +51,12 @@ export default function ProductCard({ appName, description, available, onClick }
           
           <div 
             className="w-16 h-px" 
-            style={{ backgroundColor: 'rgba(245, 230, 211, 0.3)' }}
+            style={{ backgroundColor: available ? 'rgba(61, 47, 42, 0.3)' : 'rgba(245, 230, 211, 0.3)' }}
           />
           
           <p 
             style={{ 
-              color: '#F5E6D3', 
+              color: available ? '#3D2F2A' : '#F5E6D3', 
               fontFamily: 'IBM Plex Mono, monospace',
               fontSize: '0.875rem',
               lineHeight: '1.6',

@@ -1,24 +1,62 @@
-import logoImage from 'figma:asset/1b281f2f091024b09cf1902de8f87fc1782862c0.png';
+import { useState, useEffect } from 'react';
+import { projectId, publicAnonKey } from '../utils/supabase/info';
+import LoadingSpinner from './LoadingSpinner';
 
 export default function Hero() {
+  const [logoUrl, setLogoUrl] = useState<string>('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLogo = async () => {
+      try {
+        const response = await fetch(
+          `https://${projectId}.supabase.co/functions/v1/make-server-7d6c9568/icon`,
+          {
+            headers: {
+              Authorization: `Bearer ${publicAnonKey}`,
+            },
+          }
+        );
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data.url) {
+            setLogoUrl(data.url);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching logo:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLogo();
+  }, []);
 
   return (
     <section className="min-h-screen flex flex-col items-center justify-center px-16 py-24">
       <div className="mb-8">
         <div 
-          className="relative"
+          className="relative flex items-center justify-center"
           style={{
             padding: '24px',
             border: '3px solid #F5E6D3',
-            boxShadow: 'inset 0 0 0 8px #3D2F2A, inset 0 0 0 10px #F5E6D3'
+            boxShadow: 'inset 0 0 0 8px #3D2F2A, inset 0 0 0 10px #F5E6D3',
+            minHeight: '240px',
+            minWidth: '240px'
           }}
         >
-          <img
-            src={logoImage}
-            alt="Team Offline Logo"
-            className="w-auto h-48 mx-auto block"
-            style={{ display: 'block' }}
-          />
+          {loading ? (
+            <LoadingSpinner size={60} />
+          ) : logoUrl ? (
+            <img
+              src={logoUrl}
+              alt="Team Offline Logo"
+              className="w-auto h-48 mx-auto block"
+              style={{ display: 'block' }}
+            />
+          ) : null}
         </div>
       </div>
       <p 

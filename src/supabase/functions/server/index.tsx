@@ -186,4 +186,59 @@ app.post("/make-server-7d6c9568/comments", async (c) => {
   }
 });
 
+// Get all news
+app.get("/make-server-7d6c9568/news", async (c) => {
+  try {
+    const prefix = 'news:';
+    const news = await kv.getByPrefix(prefix);
+    // Sort by timestamp descending (newest first)
+    const sortedNews = news.sort((a, b) => b.timestamp - a.timestamp);
+    return c.json({ news: sortedNews });
+  } catch (error) {
+    console.log('Server error while fetching news:', error);
+    return c.json({ error: 'Failed to fetch news', details: String(error) }, 500);
+  }
+});
+
+// Post a new news item
+app.post("/make-server-7d6c9568/news", async (c) => {
+  try {
+    const body = await c.req.json();
+    const { title, content, password } = body;
+
+    if (!title || !content || !password) {
+      return c.json({ error: 'title, content and password are required' }, 400);
+    }
+
+    // Verify password
+    if (password !== '5824397') {
+      return c.json({ error: 'Incorrect password' }, 403);
+    }
+
+    if (title.length > 200) {
+      return c.json({ error: 'Title is too long (max 200 characters)' }, 400);
+    }
+
+    if (content.length > 2000) {
+      return c.json({ error: 'Content is too long (max 2000 characters)' }, 400);
+    }
+
+    const timestamp = Date.now();
+    const randomId = Math.random().toString(36).substring(7);
+    const id = `news:${timestamp}-${randomId}`;
+    const newsData = {
+      id,
+      title: title.substring(0, 200),
+      content: content.substring(0, 2000),
+      timestamp
+    };
+
+    await kv.set(id, newsData);
+    return c.json({ success: true, news: newsData });
+  } catch (error) {
+    console.log('Server error while posting news:', error);
+    return c.json({ error: 'Failed to post news', details: String(error) }, 500);
+  }
+});
+
 Deno.serve(app.fetch);

@@ -1,11 +1,13 @@
 import { ArrowLeft, Download, Apple, Monitor, Send } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { projectId, publicAnonKey } from '../utils/supabase/info';
+import LoadingSpinner from './LoadingSpinner';
 
 interface DownloadPageProps {
   onBack: () => void;
   appName: string;
   description: string;
+  trialLink?: string;
 }
 
 interface DownloadFile {
@@ -20,7 +22,7 @@ interface Comment {
   timestamp: number;
 }
 
-export default function DownloadPage({ onBack, appName, description }: DownloadPageProps) {
+export default function DownloadPage({ onBack, appName, description, trialLink }: DownloadPageProps) {
   const [dmgFile, setDmgFile] = useState<DownloadFile | null>(null);
   const [exeFile, setExeFile] = useState<DownloadFile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -209,18 +211,75 @@ export default function DownloadPage({ onBack, appName, description }: DownloadP
             style={{ backgroundColor: '#F5E6D3' }}
           />
 
+          {/* Trial Link Section */}
+          {trialLink && (
+            <div className="mb-16">
+              <div 
+                className="mb-6 uppercase text-center"
+                style={{
+                  fontFamily: 'IBM Plex Mono, monospace',
+                  fontSize: '0.875rem',
+                  letterSpacing: '0.08em',
+                  color: '#F5E6D3',
+                  opacity: 0.8
+                }}
+              >
+                TRY BEFORE YOU DOWNLOAD
+              </div>
+              <a
+                href={trialLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 transition-all hover:scale-105"
+                style={{
+                  backgroundColor: '#F5E6D3',
+                  color: '#2C231F',
+                  fontFamily: 'IBM Plex Mono, monospace',
+                  fontSize: '0.875rem',
+                  letterSpacing: '0.08em',
+                  fontWeight: '600',
+                  textDecoration: 'none',
+                  border: '3px solid #F5E6D3'
+                }}
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                OPEN TRIAL VERSION
+              </a>
+              <div 
+                className="w-24 h-px mx-auto mt-12" 
+                style={{ backgroundColor: '#F5E6D3', opacity: 0.3 }}
+              />
+            </div>
+          )}
+
           {/* Download Cards */}
           {loading ? (
-            <div 
-              className="p-12"
-              style={{
-                fontFamily: 'IBM Plex Mono, monospace',
-                fontSize: '0.875rem',
-                color: '#F5E6D3',
-                opacity: 0.6
-              }}
-            >
-              Loading...
+            <div className="p-12 flex flex-col items-center gap-4">
+              <LoadingSpinner size={50} />
+              <div 
+                style={{
+                  fontFamily: 'IBM Plex Mono, monospace',
+                  fontSize: '0.875rem',
+                  color: '#F5E6D3',
+                  opacity: 0.6,
+                  letterSpacing: '0.08em'
+                }}
+              >
+                LOADING...
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -548,16 +607,19 @@ export default function DownloadPage({ onBack, appName, description }: DownloadP
           {/* Comments List */}
           <div className="space-y-6">
             {commentsLoading ? (
-              <div 
-                className="text-center py-8"
-                style={{
-                  fontFamily: 'IBM Plex Mono, monospace',
-                  fontSize: '0.875rem',
-                  color: '#F5E6D3',
-                  opacity: 0.6
-                }}
-              >
-                Loading comments...
+              <div className="text-center py-8 flex flex-col items-center gap-4">
+                <LoadingSpinner size={40} />
+                <div 
+                  style={{
+                    fontFamily: 'IBM Plex Mono, monospace',
+                    fontSize: '0.875rem',
+                    color: '#F5E6D3',
+                    opacity: 0.6,
+                    letterSpacing: '0.08em'
+                  }}
+                >
+                  LOADING COMMENTS...
+                </div>
               </div>
             ) : comments.length === 0 ? (
               <div 
