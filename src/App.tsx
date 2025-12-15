@@ -1,16 +1,114 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createClient } from '@supabase/supabase-js';
+import { projectId, publicAnonKey } from './utils/supabase/info';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import ProductCard from './components/ProductCard';
+import MainAppCard from './components/MainAppCard';
+import AdditionalToolCard from './components/AdditionalToolCard';
 import VideoSection from './components/VideoSection';
 import Footer from './components/Footer';
 import DownloadPage from './components/DownloadPage';
 import NewsPage from './components/NewsPage';
+import LoginPage from './components/LoginPage';
+import SignupPage from './components/SignupPage';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'download' | 'news'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'download' | 'news' | 'login' | 'signup'>('home');
   const [selectedProduct, setSelectedProduct] = useState<{ appName: string; description: string; trialLink?: string } | null>(null);
-  const products = [
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+
+  // Check for existing session on mount
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const supabase = createClient(
+          `https://${projectId}.supabase.co`,
+          publicAnonKey
+        );
+        const { data, error } = await supabase.auth.getSession();
+        
+        if (!error && data.session) {
+          setUserEmail(data.session.user.email || null);
+          setAccessToken(data.session.access_token);
+        }
+      } catch (error) {
+        // Silently handle error - session check is optional
+      }
+    };
+
+    checkSession();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const supabase = createClient(
+        `https://${projectId}.supabase.co`,
+        publicAnonKey
+      );
+      await supabase.auth.signOut();
+      setUserEmail(null);
+      setAccessToken(null);
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
+  const handleLoginSuccess = (email: string, token: string) => {
+    setUserEmail(email);
+    setAccessToken(token);
+    setCurrentPage('home');
+  };
+
+  const handleSignupSuccess = () => {
+    // After signup, redirect to login
+    setCurrentPage('login');
+  };
+  
+  // Main app
+  const mainApp = {
+    id: 5,
+    appName: 'ForNeed',
+    description: 'Task optimization by relation',
+    available: 'download' as const,
+    trialLink: 'https://example.com/trial/forneed'
+  };
+
+  // Additional tools for ForNeed
+  const additionalTools = [
+    {
+      id: 6,
+      appName: 'CIRCLES MIND LOADMAP',
+      description: 'Near-perfect keyboard control',
+      available: 'trial' as const,
+      trialLink: 'https://glassy-route-84219197.figma.site'
+    },
+    {
+      id: 13,
+      appName: 'Every Enter',
+      description: 'Write and organize your daily thoughts',
+      available: 'trial' as const,
+      trialLink: 'https://corner-echo-27155086.figma.site'
+    },
+    {
+      id: 12,
+      appName: 'Money Monitor',
+      description: 'Track and forecast your financial expectations',
+      available: 'trial' as const,
+      trialLink: 'https://emote-stair-41398259.figma.site'
+    },
+    {
+      id: 11,
+      appName: 'Personal People Database',
+      description: 'Manage and organize your personal contacts',
+      available: 'trial' as const,
+      trialLink: 'https://tool-pickle-06548265.figma.site'
+    },
+  ];
+
+  // Other apps (coming soon)
+  const comingSoonApps = [
     {
       id: 1,
       appName: 'Demand Check',
@@ -40,20 +138,6 @@ export default function App() {
       trialLink: 'https://example.com/trial/lyricist'
     },
     {
-      id: 5,
-      appName: 'ForNeed',
-      description: 'Task optimization by relation',
-      available: true,
-      trialLink: 'https://example.com/trial/forneed'
-    },
-    {
-      id: 6,
-      appName: 'Mindmap + Life Optimization',
-      description: 'Near-perfect keyboard control',
-      available: false,
-      trialLink: 'https://glassy-route-84219197.figma.site'
-    },
-    {
       id: 7,
       appName: 'Shortform Memo',
       description: 'Replace shorts to memo you wrote',
@@ -81,27 +165,6 @@ export default function App() {
       available: false,
       trialLink: 'https://example.com/trial/scenario'
     },
-    {
-      id: 11,
-      appName: 'Personal People Database',
-      description: 'Manage and organize your personal contacts',
-      available: false,
-      trialLink: 'https://example.com/trial/personal-people-database'
-    },
-    {
-      id: 12,
-      appName: 'Money Expectation',
-      description: 'Track and forecast your financial expectations',
-      available: false,
-      trialLink: 'https://example.com/trial/money-expectation'
-    },
-    {
-      id: 13,
-      appName: 'Every Enter',
-      description: 'Write and organize your daily thoughts',
-      available: false,
-      trialLink: 'https://example.com/trial/every-enter'
-    },
   ];
 
   if (currentPage === 'download' && selectedProduct) {
@@ -126,33 +189,149 @@ export default function App() {
     );
   }
 
+  if (currentPage === 'login') {
+    return (
+      <LoginPage 
+        onBack={() => setCurrentPage('home')} 
+        onLoginSuccess={handleLoginSuccess}
+        onSignupClick={() => setCurrentPage('signup')}
+      />
+    );
+  }
+
+  if (currentPage === 'signup') {
+    return (
+      <SignupPage 
+        onBack={() => setCurrentPage('home')} 
+        onSignupSuccess={handleSignupSuccess}
+        onLoginClick={() => setCurrentPage('login')}
+      />
+    );
+  }
+
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#3D2F2A', color: '#F5E6D3' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#000000', color: '#FFFFFF' }}>
       {/* Import fonts from Google Fonts */}
       <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
       
-      <Navigation onNewsClick={() => setCurrentPage('news')} />
+      <Navigation 
+        onNewsClick={() => setCurrentPage('news')} 
+        onLoginClick={() => setCurrentPage('login')}
+        onLogout={handleLogout}
+        userEmail={userEmail}
+      />
       <Hero />
       
       <main className="px-16 pb-24" id="apps">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 max-w-7xl mx-auto">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              appName={product.appName}
-              description={product.description}
-              available={product.available}
+        {/* Main App Section */}
+        <section className="mb-32">
+          <div className="flex justify-center">
+            <MainAppCard
+              appName={mainApp.appName}
+              description={mainApp.description}
+              available={mainApp.available}
               onClick={() => {
                 setSelectedProduct({ 
-                  appName: product.appName, 
-                  description: product.description,
-                  trialLink: product.trialLink
+                  appName: mainApp.appName, 
+                  description: mainApp.description,
+                  trialLink: mainApp.trialLink
                 });
                 setCurrentPage('download');
               }}
             />
-          ))}
-        </div>
+          </div>
+        </section>
+
+        {/* Additional Tools Section */}
+        <section className="mb-32">
+          <div className="text-center mb-16">
+            <h2 
+              className="uppercase mb-4" 
+              style={{ 
+                fontFamily: 'League Spartan, sans-serif',
+                fontSize: '2.5rem',
+                letterSpacing: '0.15em',
+                fontWeight: '700'
+              }}
+            >
+              ADDITIONAL TOOLS
+            </h2>
+            <p 
+              style={{ 
+                fontFamily: 'IBM Plex Mono, monospace',
+                fontSize: '0.875rem',
+                letterSpacing: '0.1em',
+                opacity: 0.7
+              }}
+            >
+              EXTENDED FUNCTIONALITY FOR FORNEED
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-6xl mx-auto">
+            {additionalTools.map((tool) => (
+              <AdditionalToolCard
+                key={tool.id}
+                appName={tool.appName}
+                description={tool.description}
+                available={tool.available}
+                onClick={() => {
+                  setSelectedProduct({ 
+                    appName: tool.appName, 
+                    description: tool.description,
+                    trialLink: tool.trialLink
+                  });
+                  setCurrentPage('download');
+                }}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* Coming Soon Section */}
+        <section>
+          <div className="text-center mb-16">
+            <h2 
+              className="uppercase mb-4" 
+              style={{ 
+                fontFamily: 'League Spartan, sans-serif',
+                fontSize: '2rem',
+                letterSpacing: '0.15em',
+                fontWeight: '700',
+                opacity: 0.6
+              }}
+            >
+              COMING SOON
+            </h2>
+            <p 
+              style={{ 
+                fontFamily: 'IBM Plex Mono, monospace',
+                fontSize: '0.75rem',
+                letterSpacing: '0.1em',
+                opacity: 0.5
+              }}
+            >
+              FUTURE EXPANSIONS
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 max-w-7xl mx-auto">
+            {comingSoonApps.map((app) => (
+              <ProductCard
+                key={app.id}
+                appName={app.appName}
+                description={app.description}
+                available={app.available}
+                onClick={() => {
+                  setSelectedProduct({ 
+                    appName: app.appName, 
+                    description: app.description,
+                    trialLink: app.trialLink
+                  });
+                  setCurrentPage('download');
+                }}
+              />
+            ))}
+          </div>
+        </section>
       </main>
 
       <VideoSection />

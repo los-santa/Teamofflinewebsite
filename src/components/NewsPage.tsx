@@ -102,7 +102,7 @@ export default function NewsPage({ onBack }: NewsPageProps) {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#3D2F2A', color: '#F5E6D3' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#000000', color: '#FFFFFF' }}>
       <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
       
       {/* Navigation */}
@@ -114,7 +114,7 @@ export default function NewsPage({ onBack }: NewsPageProps) {
             fontFamily: 'IBM Plex Mono, monospace',
             fontSize: '0.875rem',
             letterSpacing: '0.08em',
-            color: '#F5E6D3'
+            color: '#FFFFFF'
           }}
         >
           <ArrowLeft size={20} />
@@ -129,7 +129,7 @@ export default function NewsPage({ onBack }: NewsPageProps) {
           style={{ 
             fontFamily: 'League Spartan, sans-serif',
             fontSize: '4rem',
-            color: '#F5E6D3',
+            color: '#FFFFFF',
             letterSpacing: '0.05em'
           }}
         >
@@ -138,15 +138,15 @@ export default function NewsPage({ onBack }: NewsPageProps) {
 
         <div 
           className="w-24 h-px mx-auto mb-12" 
-          style={{ backgroundColor: '#F5E6D3' }}
+          style={{ backgroundColor: '#FFFFFF' }}
         />
 
         {/* Warning Message */}
         <div 
           className="mb-12 p-6 text-center"
           style={{ 
-            border: '2px solid rgba(245, 230, 211, 0.5)',
-            backgroundColor: 'rgba(245, 230, 211, 0.1)'
+            border: '2px solid rgba(255, 255, 255, 0.5)',
+            backgroundColor: 'rgba(255, 255, 255, 0.1)'
           }}
         >
           <p 
@@ -155,7 +155,7 @@ export default function NewsPage({ onBack }: NewsPageProps) {
               fontFamily: 'IBM Plex Mono, monospace',
               fontSize: '0.875rem',
               letterSpacing: '0.1em',
-              color: '#F5E6D3',
+              color: '#FFFFFF',
               opacity: 0.8
             }}
           >
@@ -167,8 +167,8 @@ export default function NewsPage({ onBack }: NewsPageProps) {
         <div 
           className="mb-16 p-8"
           style={{ 
-            border: '3px solid #F5E6D3',
-            backgroundColor: '#2C231F'
+            border: '3px solid #FFFFFF',
+            backgroundColor: '#2A2A2A'
           }}
         >
           <h2 
@@ -176,7 +176,7 @@ export default function NewsPage({ onBack }: NewsPageProps) {
             style={{ 
               fontFamily: 'League Spartan, sans-serif',
               fontSize: '1.5rem',
-              color: '#F5E6D3',
+              color: '#FFFFFF',
               letterSpacing: '0.08em'
             }}
           >
@@ -191,7 +191,7 @@ export default function NewsPage({ onBack }: NewsPageProps) {
                 fontFamily: 'IBM Plex Mono, monospace',
                 fontSize: '0.75rem',
                 letterSpacing: '0.08em',
-                color: '#F5E6D3',
+                color: '#FFFFFF',
                 opacity: 0.8
               }}
             >
@@ -206,9 +206,9 @@ export default function NewsPage({ onBack }: NewsPageProps) {
               placeholder="Enter news title..."
               className="w-full px-4 py-3"
               style={{
-                backgroundColor: '#3D2F2A',
-                border: '2px solid #F5E6D3',
-                color: '#F5E6D3',
+                backgroundColor: '#000000',
+                border: '2px solid rgba(255, 255, 255, 0.3)',
+                color: '#FFFFFF',
                 fontFamily: 'IBM Plex Mono, monospace',
                 fontSize: '0.875rem',
                 outline: 'none'
@@ -224,7 +224,7 @@ export default function NewsPage({ onBack }: NewsPageProps) {
                 fontFamily: 'IBM Plex Mono, monospace',
                 fontSize: '0.75rem',
                 letterSpacing: '0.08em',
-                color: '#F5E6D3',
+                color: '#FFFFFF',
                 opacity: 0.8
               }}
             >
@@ -239,9 +239,9 @@ export default function NewsPage({ onBack }: NewsPageProps) {
               placeholder="Enter news content..."
               className="w-full px-4 py-3 resize-none"
               style={{
-                backgroundColor: '#3D2F2A',
-                border: '2px solid #F5E6D3',
-                color: '#F5E6D3',
+                backgroundColor: '#000000',
+                border: '2px solid rgba(255, 255, 255, 0.3)',
+                color: '#FFFFFF',
                 fontFamily: 'IBM Plex Mono, monospace',
                 fontSize: '0.875rem',
                 lineHeight: '1.6',
@@ -253,7 +253,7 @@ export default function NewsPage({ onBack }: NewsPageProps) {
               style={{
                 fontFamily: 'IBM Plex Mono, monospace',
                 fontSize: '0.7rem',
-                color: '#F5E6D3',
+                color: '#FFFFFF',
                 opacity: 0.5
               }}
             >
@@ -265,8 +265,8 @@ export default function NewsPage({ onBack }: NewsPageProps) {
             onClick={handleUploadClick}
             className="inline-flex items-center gap-3 px-8 py-3 transition-all hover:scale-105"
             style={{
-              backgroundColor: '#F5E6D3',
-              color: '#2C231F',
+              backgroundColor: '#FFFFFF',
+              color: '#000000',
               fontFamily: 'IBM Plex Mono, monospace',
               fontSize: '0.875rem',
               letterSpacing: '0.08em',
@@ -290,19 +290,19 @@ export default function NewsPage({ onBack }: NewsPageProps) {
             <div 
               className="p-8 max-w-md w-full mx-4"
               style={{ 
-                border: '3px solid #F5E6D3',
-                backgroundColor: '#2C231F'
+                border: '3px solid #FFFFFF',
+                backgroundColor: '#2A2A2A'
               }}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center gap-3 mb-6">
-                <Lock size={24} style={{ color: '#F5E6D3' }} />
+                <Lock size={24} style={{ color: '#FFFFFF' }} />
                 <h3 
                   className="uppercase"
                   style={{ 
                     fontFamily: 'League Spartan, sans-serif',
                     fontSize: '1.5rem',
-                    color: '#F5E6D3',
+                    color: '#FFFFFF',
                     letterSpacing: '0.08em'
                   }}
                 >
@@ -317,9 +317,9 @@ export default function NewsPage({ onBack }: NewsPageProps) {
                 placeholder="Enter admin password..."
                 className="w-full px-4 py-3 mb-6"
                 style={{
-                  backgroundColor: '#3D2F2A',
-                  border: '2px solid #F5E6D3',
-                  color: '#F5E6D3',
+                  backgroundColor: '#000000',
+                  border: '2px solid rgba(255, 255, 255, 0.3)',
+                  color: '#FFFFFF',
                   fontFamily: 'IBM Plex Mono, monospace',
                   fontSize: '0.875rem',
                   outline: 'none'
@@ -337,8 +337,8 @@ export default function NewsPage({ onBack }: NewsPageProps) {
                   disabled={submitting}
                   className="flex-1 px-6 py-3 transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{
-                    backgroundColor: '#F5E6D3',
-                    color: '#2C231F',
+                    backgroundColor: '#FFFFFF',
+                    color: '#000000',
                     fontFamily: 'IBM Plex Mono, monospace',
                     fontSize: '0.875rem',
                     letterSpacing: '0.08em',
@@ -355,8 +355,8 @@ export default function NewsPage({ onBack }: NewsPageProps) {
                   className="flex-1 px-6 py-3 transition-all hover:scale-105 disabled:opacity-50"
                   style={{
                     backgroundColor: 'transparent',
-                    border: '2px solid #F5E6D3',
-                    color: '#F5E6D3',
+                    border: '2px solid #FFFFFF',
+                    color: '#FFFFFF',
                     fontFamily: 'IBM Plex Mono, monospace',
                     fontSize: '0.875rem',
                     letterSpacing: '0.08em',
@@ -374,7 +374,7 @@ export default function NewsPage({ onBack }: NewsPageProps) {
         {/* News List */}
         <div 
           className="w-24 h-px mx-auto mb-12" 
-          style={{ backgroundColor: '#F5E6D3' }}
+          style={{ backgroundColor: '#FFFFFF' }}
         />
 
         <h2 
@@ -382,7 +382,7 @@ export default function NewsPage({ onBack }: NewsPageProps) {
           style={{ 
             fontFamily: 'League Spartan, sans-serif',
             fontSize: '2rem',
-            color: '#F5E6D3',
+            color: '#FFFFFF',
             letterSpacing: '0.08em'
           }}
         >
@@ -397,7 +397,7 @@ export default function NewsPage({ onBack }: NewsPageProps) {
                 style={{
                   fontFamily: 'IBM Plex Mono, monospace',
                   fontSize: '0.875rem',
-                  color: '#F5E6D3',
+                  color: '#FFFFFF',
                   opacity: 0.6,
                   letterSpacing: '0.08em'
                 }}
@@ -411,7 +411,7 @@ export default function NewsPage({ onBack }: NewsPageProps) {
               style={{
                 fontFamily: 'IBM Plex Mono, monospace',
                 fontSize: '0.875rem',
-                color: '#F5E6D3',
+                color: '#FFFFFF',
                 opacity: 0.5
               }}
             >
@@ -423,8 +423,8 @@ export default function NewsPage({ onBack }: NewsPageProps) {
                 key={item.id}
                 className="p-8"
                 style={{ 
-                  border: '3px solid #F5E6D3',
-                  backgroundColor: '#2C231F'
+                  border: '3px solid #FFFFFF',
+                  backgroundColor: '#2A2A2A'
                 }}
               >
                 <div className="flex justify-between items-start mb-4">
@@ -432,7 +432,7 @@ export default function NewsPage({ onBack }: NewsPageProps) {
                     style={{
                       fontFamily: 'League Spartan, sans-serif',
                       fontSize: '1.5rem',
-                      color: '#F5E6D3',
+                      color: '#FFFFFF',
                       letterSpacing: '0.05em'
                     }}
                   >
@@ -442,7 +442,7 @@ export default function NewsPage({ onBack }: NewsPageProps) {
                     style={{
                       fontFamily: 'IBM Plex Mono, monospace',
                       fontSize: '0.7rem',
-                      color: '#F5E6D3',
+                      color: '#FFFFFF',
                       opacity: 0.5,
                       whiteSpace: 'nowrap',
                       marginLeft: '1rem'
@@ -461,7 +461,7 @@ export default function NewsPage({ onBack }: NewsPageProps) {
                   style={{
                     fontFamily: 'IBM Plex Mono, monospace',
                     fontSize: '0.875rem',
-                    color: '#F5E6D3',
+                    color: '#FFFFFF',
                     lineHeight: '1.8',
                     opacity: 0.9,
                     whiteSpace: 'pre-wrap'

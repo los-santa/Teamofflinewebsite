@@ -96,11 +96,11 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
         if (response.ok) {
           const data = await response.json();
           setComments(data.comments || []);
-        } else {
-          console.error('Failed to fetch comments');
         }
+        // Silently handle errors - comments are optional
       } catch (error) {
-        console.error('Error fetching comments:', error);
+        // Silently handle error - comments system is optional
+        // Server may not be running or database may be empty
       } finally {
         setCommentsLoading(false);
       }
@@ -158,7 +158,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#3D2F2A', color: '#F5E6D3' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#000000', color: '#FFFFFF' }}>
       <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
       
       {/* Navigation */}
@@ -170,7 +170,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
             fontFamily: 'IBM Plex Mono, monospace',
             fontSize: '0.875rem',
             letterSpacing: '0.08em',
-            color: '#F5E6D3'
+            color: '#FFFFFF'
           }}
         >
           <ArrowLeft size={20} />
@@ -186,7 +186,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
             style={{ 
               fontFamily: 'League Spartan, sans-serif',
               fontSize: '4rem',
-              color: '#F5E6D3',
+              color: '#FFFFFF',
               letterSpacing: '0.05em'
             }}
           >
@@ -196,7 +196,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
           <p 
             className="mb-12 uppercase"
             style={{ 
-              color: '#F5E6D3', 
+              color: '#FFFFFF', 
               fontFamily: 'IBM Plex Mono, monospace',
               fontSize: '0.875rem',
               letterSpacing: '0.12em',
@@ -208,7 +208,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
 
           <div 
             className="w-24 h-px mx-auto mb-16" 
-            style={{ backgroundColor: '#F5E6D3' }}
+            style={{ backgroundColor: '#FFFFFF' }}
           />
 
           {/* Trial Link Section */}
@@ -220,7 +220,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                   fontFamily: 'IBM Plex Mono, monospace',
                   fontSize: '0.875rem',
                   letterSpacing: '0.08em',
-                  color: '#F5E6D3',
+                  color: '#FFFFFF',
                   opacity: 0.8
                 }}
               >
@@ -287,12 +287,12 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
               <div 
                 className="p-10"
                 style={{ 
-                  border: '3px solid #F5E6D3',
-                  backgroundColor: '#2C231F'
+                  border: '3px solid #FFFFFF',
+                  backgroundColor: '#2A2A2A'
                 }}
               >
                 <div className="flex items-center justify-center mb-6">
-                  <Apple size={48} style={{ color: '#F5E6D3' }} />
+                  <Apple size={48} style={{ color: '#FFFFFF' }} />
                 </div>
                 
                 <div 
@@ -301,7 +301,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                     fontFamily: 'League Spartan, sans-serif',
                     fontSize: '1.25rem',
                     letterSpacing: '0.08em',
-                    color: '#F5E6D3'
+                    color: '#FFFFFF'
                   }}
                 >
                   macOS
@@ -314,8 +314,8 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                       download
                       className="inline-flex items-center justify-center gap-3 px-6 py-3 w-full transition-all hover:scale-105"
                       style={{
-                        backgroundColor: '#F5E6D3',
-                        color: '#2C231F',
+                        backgroundColor: '#FFFFFF',
+                        color: '#000000',
                         fontFamily: 'IBM Plex Mono, monospace',
                         fontSize: '0.875rem',
                         letterSpacing: '0.08em',
@@ -331,7 +331,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                       style={{
                         fontFamily: 'IBM Plex Mono, monospace',
                         fontSize: '0.7rem',
-                        color: '#F5E6D3',
+                        color: '#FFFFFF',
                         opacity: 0.5,
                         lineHeight: '1.6'
                       }}
@@ -346,7 +346,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                       fontFamily: 'IBM Plex Mono, monospace',
                       fontSize: '0.875rem',
                       letterSpacing: '0.08em',
-                      color: '#F5E6D3',
+                      color: '#FFFFFF',
                       opacity: 0.5
                     }}
                   >
@@ -359,12 +359,12 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
               <div 
                 className="p-10"
                 style={{ 
-                  border: '3px solid #F5E6D3',
-                  backgroundColor: '#2C231F'
+                  border: '3px solid #FFFFFF',
+                  backgroundColor: '#2A2A2A'
                 }}
               >
                 <div className="flex items-center justify-center mb-6">
-                  <Monitor size={48} style={{ color: '#F5E6D3' }} />
+                  <Monitor size={48} style={{ color: '#FFFFFF' }} />
                 </div>
                 
                 <div 
@@ -373,7 +373,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                     fontFamily: 'League Spartan, sans-serif',
                     fontSize: '1.25rem',
                     letterSpacing: '0.08em',
-                    color: '#F5E6D3'
+                    color: '#FFFFFF'
                   }}
                 >
                   Windows
@@ -386,8 +386,8 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                       download
                       className="inline-flex items-center justify-center gap-3 px-6 py-3 w-full transition-all hover:scale-105"
                       style={{
-                        backgroundColor: '#F5E6D3',
-                        color: '#2C231F',
+                        backgroundColor: '#FFFFFF',
+                        color: '#000000',
                         fontFamily: 'IBM Plex Mono, monospace',
                         fontSize: '0.875rem',
                         letterSpacing: '0.08em',
@@ -403,7 +403,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                       style={{
                         fontFamily: 'IBM Plex Mono, monospace',
                         fontSize: '0.7rem',
-                        color: '#F5E6D3',
+                        color: '#FFFFFF',
                         opacity: 0.5,
                         lineHeight: '1.6'
                       }}
@@ -418,7 +418,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                       fontFamily: 'IBM Plex Mono, monospace',
                       fontSize: '0.875rem',
                       letterSpacing: '0.08em',
-                      color: '#F5E6D3',
+                      color: '#FFFFFF',
                       opacity: 0.5
                     }}
                   >
@@ -435,7 +435,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
             style={{
               fontFamily: 'IBM Plex Mono, monospace',
               fontSize: '0.875rem',
-              color: '#F5E6D3',
+              color: '#FFFFFF',
               opacity: 0.7,
               lineHeight: '1.8'
             }}
@@ -456,7 +456,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                 fontFamily: 'IBM Plex Mono, monospace',
                 fontSize: '0.75rem',
                 letterSpacing: '0.1em',
-                color: '#F5E6D3',
+                color: '#FFFFFF',
                 opacity: 0.6
               }}
             >
@@ -467,7 +467,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
               height="24" 
               viewBox="0 0 24 24" 
               fill="none" 
-              stroke="#F5E6D3" 
+              stroke="#FFFFFF" 
               strokeWidth="2" 
               strokeLinecap="round" 
               strokeLinejoin="round"
@@ -482,7 +482,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
         <div className="max-w-4xl w-full mt-24 px-16 pb-24">
           <div 
             className="w-24 h-px mx-auto mb-12" 
-            style={{ backgroundColor: '#F5E6D3' }}
+            style={{ backgroundColor: '#FFFFFF' }}
           />
 
           <h2 
@@ -490,7 +490,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
             style={{ 
               fontFamily: 'League Spartan, sans-serif',
               fontSize: '2rem',
-              color: '#F5E6D3',
+              color: '#FFFFFF',
               letterSpacing: '0.08em'
             }}
           >
@@ -502,8 +502,8 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
             onSubmit={handleSubmitComment}
             className="mb-16 p-8"
             style={{ 
-              border: '3px solid #F5E6D3',
-              backgroundColor: '#2C231F'
+              border: '3px solid #FFFFFF',
+              backgroundColor: '#2A2A2A'
             }}
           >
             <div className="mb-6">
@@ -514,7 +514,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                   fontFamily: 'IBM Plex Mono, monospace',
                   fontSize: '0.75rem',
                   letterSpacing: '0.08em',
-                  color: '#F5E6D3',
+                  color: '#FFFFFF',
                   opacity: 0.8
                 }}
               >
@@ -529,9 +529,9 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                 placeholder="your@email.com"
                 className="w-full px-4 py-3"
                 style={{
-                  backgroundColor: '#3D2F2A',
-                  border: '2px solid #F5E6D3',
-                  color: '#F5E6D3',
+                  backgroundColor: '#000000',
+                  border: '2px solid rgba(255, 255, 255, 0.3)',
+                  color: '#FFFFFF',
                   fontFamily: 'IBM Plex Mono, monospace',
                   fontSize: '0.875rem',
                   outline: 'none'
@@ -547,7 +547,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                   fontFamily: 'IBM Plex Mono, monospace',
                   fontSize: '0.75rem',
                   letterSpacing: '0.08em',
-                  color: '#F5E6D3',
+                  color: '#FFFFFF',
                   opacity: 0.8
                 }}
               >
@@ -562,9 +562,9 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                 placeholder="I'd love to see a feature that..."
                 className="w-full px-4 py-3 resize-none"
                 style={{
-                  backgroundColor: '#3D2F2A',
-                  border: '2px solid #F5E6D3',
-                  color: '#F5E6D3',
+                  backgroundColor: '#000000',
+                  border: '2px solid rgba(255, 255, 255, 0.3)',
+                  color: '#FFFFFF',
                   fontFamily: 'IBM Plex Mono, monospace',
                   fontSize: '0.875rem',
                   lineHeight: '1.6',
@@ -576,7 +576,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                 style={{
                   fontFamily: 'IBM Plex Mono, monospace',
                   fontSize: '0.7rem',
-                  color: '#F5E6D3',
+                  color: '#FFFFFF',
                   opacity: 0.5
                 }}
               >
@@ -589,8 +589,8 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
               disabled={submitting}
               className="inline-flex items-center gap-3 px-8 py-3 transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               style={{
-                backgroundColor: '#F5E6D3',
-                color: '#2C231F',
+                backgroundColor: '#FFFFFF',
+                color: '#000000',
                 fontFamily: 'IBM Plex Mono, monospace',
                 fontSize: '0.875rem',
                 letterSpacing: '0.08em',
@@ -613,7 +613,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                   style={{
                     fontFamily: 'IBM Plex Mono, monospace',
                     fontSize: '0.875rem',
-                    color: '#F5E6D3',
+                    color: '#FFFFFF',
                     opacity: 0.6,
                     letterSpacing: '0.08em'
                   }}
@@ -627,7 +627,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                 style={{
                   fontFamily: 'IBM Plex Mono, monospace',
                   fontSize: '0.875rem',
-                  color: '#F5E6D3',
+                  color: '#FFFFFF',
                   opacity: 0.5
                 }}
               >
@@ -639,8 +639,8 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                   key={c.id}
                   className="p-6"
                   style={{ 
-                    border: '2px solid rgba(245, 230, 211, 0.3)',
-                    backgroundColor: '#2C231F'
+                    border: '2px solid rgba(255, 255, 255, 0.3)',
+                    backgroundColor: '#2A2A2A'
                   }}
                 >
                   <div className="flex justify-between items-start mb-3">
@@ -648,7 +648,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                       style={{
                         fontFamily: 'IBM Plex Mono, monospace',
                         fontSize: '0.875rem',
-                        color: '#F5E6D3',
+                        color: '#FFFFFF',
                         fontWeight: '600'
                       }}
                     >
@@ -658,7 +658,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                       style={{
                         fontFamily: 'IBM Plex Mono, monospace',
                         fontSize: '0.7rem',
-                        color: '#F5E6D3',
+                        color: '#FFFFFF',
                         opacity: 0.5
                       }}
                     >
@@ -675,7 +675,7 @@ export default function DownloadPage({ onBack, appName, description, trialLink }
                     style={{
                       fontFamily: 'IBM Plex Mono, monospace',
                       fontSize: '0.875rem',
-                      color: '#F5E6D3',
+                      color: '#FFFFFF',
                       lineHeight: '1.6',
                       opacity: 0.9,
                       whiteSpace: 'pre-wrap'

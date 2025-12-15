@@ -53,7 +53,7 @@ export default function VideoSection() {
           <h2 
             className="uppercase mb-4" 
             style={{ 
-              color: '#F5E6D3', 
+              color: '#FFFFFF', 
               fontFamily: 'League Spartan, sans-serif',
               fontSize: '2.5rem',
               letterSpacing: '0.08em',
@@ -65,7 +65,7 @@ export default function VideoSection() {
           <p 
             className="uppercase" 
             style={{ 
-              color: '#F5E6D3', 
+              color: '#FFFFFF', 
               fontFamily: 'IBM Plex Mono, monospace',
               fontSize: '0.75rem',
               letterSpacing: '0.12em',
@@ -76,7 +76,7 @@ export default function VideoSection() {
           </p>
           <div 
             className="w-24 h-px mx-auto mt-6" 
-            style={{ backgroundColor: '#F5E6D3' }}
+            style={{ backgroundColor: '#FFFFFF' }}
           />
         </div>
 

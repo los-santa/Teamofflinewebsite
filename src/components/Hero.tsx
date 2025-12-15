@@ -25,7 +25,8 @@ export default function Hero() {
           }
         }
       } catch (error) {
-        console.error('Error fetching logo:', error);
+        // Silently handle error - logo is optional
+        // Logo may not be uploaded yet
       } finally {
         setLoading(false);
       }
@@ -41,8 +42,8 @@ export default function Hero() {
           className="relative flex items-center justify-center"
           style={{
             padding: '24px',
-            border: '3px solid #F5E6D3',
-            boxShadow: 'inset 0 0 0 8px #3D2F2A, inset 0 0 0 10px #F5E6D3',
+            border: '3px solid #FFFFFF',
+            boxShadow: 'inset 0 0 0 8px #000000, inset 0 0 0 10px #FFFFFF',
             minHeight: '240px',
             minWidth: '240px'
           }}
@@ -62,7 +63,7 @@ export default function Hero() {
       <p 
         className="mb-6 uppercase max-w-4xl mx-auto text-center" 
         style={{ 
-          color: '#F5E6D3', 
+          color: '#FFFFFF', 
           fontFamily: 'IBM Plex Mono, monospace',
           fontSize: '0.875rem',
           letterSpacing: '0.12em',
@@ -73,7 +74,7 @@ export default function Hero() {
       </p>
       <div 
         className="w-24 h-px" 
-        style={{ backgroundColor: '#F5E6D3' }}
+        style={{ backgroundColor: '#FFFFFF' }}
       />
     </section>
   );

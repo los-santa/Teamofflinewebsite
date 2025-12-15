@@ -241,4 +241,39 @@ app.post("/make-server-7d6c9568/news", async (c) => {
   }
 });
 
+// Sign up endpoint
+app.post("/make-server-7d6c9568/signup", async (c) => {
+  try {
+    const body = await c.req.json();
+    const { email, password, name } = body;
+
+    if (!email || !password) {
+      return c.json({ error: 'Email and password are required' }, 400);
+    }
+
+    if (password.length < 6) {
+      return c.json({ error: 'Password must be at least 6 characters' }, 400);
+    }
+
+    // Create user with admin API
+    const { data, error } = await supabase.auth.admin.createUser({
+      email,
+      password,
+      user_metadata: { name: name || '' },
+      // Automatically confirm the user's email since an email server hasn't been configured.
+      email_confirm: true
+    });
+
+    if (error) {
+      console.log('Server error while creating user:', error);
+      return c.json({ error: error.message }, 400);
+    }
+
+    return c.json({ success: true, user: { id: data.user.id, email: data.user.email } });
+  } catch (error) {
+    console.log('Server error while signing up:', error);
+    return c.json({ error: 'Failed to sign up', details: String(error) }, 500);
+  }
+});
+
 Deno.serve(app.fetch);

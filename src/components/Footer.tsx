@@ -8,15 +8,15 @@ export default function Footer() {
     <footer 
       className="mt-32 py-24" 
       style={{ 
-        backgroundColor: '#2C231F',
-        borderTop: '1px solid rgba(245, 230, 211, 0.15)'
+        backgroundColor: '#2A2A2A',
+        borderTop: '1px solid rgba(255, 255, 255, 0.15)'
       }}
     >
       <div className="text-center">
         <p 
           className="mb-2 uppercase" 
           style={{ 
-            color: '#F5E6D3', 
+            color: '#FFFFFF', 
             fontFamily: 'League Spartan, sans-serif',
             fontSize: '1.5rem',
             letterSpacing: '0.1em',
@@ -29,7 +29,7 @@ export default function Footer() {
         <p 
           className="mb-1 uppercase" 
           style={{ 
-            color: '#F5E6D3', 
+            color: '#FFFFFF', 
             fontFamily: 'IBM Plex Mono, monospace',
             fontSize: '0.75rem',
             letterSpacing: '0.15em',
@@ -42,7 +42,7 @@ export default function Footer() {
         <p 
           className="mb-12" 
           style={{ 
-            color: '#F5E6D3', 
+            color: '#FFFFFF', 
             fontFamily: 'IBM Plex Mono, monospace',
             fontSize: '0.875rem',
             opacity: 0.8
@@ -58,14 +58,14 @@ export default function Footer() {
               href={link.href}
               className="uppercase relative group"
               style={{ 
-                color: '#F5E6D3', 
+                color: '#FFFFFF', 
                 fontFamily: 'IBM Plex Mono, monospace',
                 fontSize: '0.875rem',
                 letterSpacing: '0.08em'
               }}
             >
               {link.name}
-              <span className="absolute bottom-[-2px] left-0 w-0 h-px transition-all duration-300 group-hover:w-full" style={{ backgroundColor: '#F5E6D3' }} />
+              <span className="absolute bottom-[-2px] left-0 w-0 h-px transition-all duration-300 group-hover:w-full" style={{ backgroundColor: '#FFFFFF' }} />
             </a>
           ))}
         </div>
@@ -73,7 +73,7 @@ export default function Footer() {
         <p 
           className="uppercase" 
           style={{ 
-            color: '#F5E6D3', 
+            color: '#FFFFFF', 
             fontFamily: 'IBM Plex Mono, monospace',
             fontSize: '0.625rem',
             letterSpacing: '0.12em',

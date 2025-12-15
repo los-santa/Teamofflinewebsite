@@ -18,8 +18,8 @@ export default function VideoCard({ title, description, url, category }: VideoCa
       <div 
         className="relative h-56 flex flex-col justify-between p-6 transition-all duration-300 group-hover:scale-103"
         style={{ 
-          border: '2px solid #F5E6D3',
-          backgroundColor: '#2C231F'
+          border: '2px solid #FFFFFF',
+          backgroundColor: '#2A2A2A'
         }}
       >
         <div>
@@ -27,7 +27,7 @@ export default function VideoCard({ title, description, url, category }: VideoCa
             <p 
               className="uppercase mb-3" 
               style={{ 
-                color: '#F5E6D3', 
+                color: '#FFFFFF', 
                 fontFamily: 'IBM Plex Mono, monospace',
                 fontSize: '0.625rem',
                 letterSpacing: '0.15em',
@@ -41,7 +41,7 @@ export default function VideoCard({ title, description, url, category }: VideoCa
           <h3 
             className="mb-3" 
             style={{ 
-              color: '#F5E6D3', 
+              color: '#FFFFFF', 
               fontFamily: 'League Spartan, sans-serif',
               fontSize: '1.125rem',
               letterSpacing: '0.05em',
@@ -54,7 +54,7 @@ export default function VideoCard({ title, description, url, category }: VideoCa
           
           <p 
             style={{ 
-              color: '#F5E6D3', 
+              color: '#FFFFFF', 
               fontFamily: 'IBM Plex Mono, monospace',
               fontSize: '0.8rem',
               lineHeight: '1.5',
@@ -66,11 +66,11 @@ export default function VideoCard({ title, description, url, category }: VideoCa
         </div>
 
         <div className="flex items-center gap-2 mt-4">
-          <ExternalLink size={14} style={{ color: '#F5E6D3', opacity: 0.5 }} />
+          <ExternalLink size={14} style={{ color: '#FFFFFF', opacity: 0.5 }} />
           <span 
             className="uppercase" 
             style={{ 
-              color: '#F5E6D3', 
+              color: '#FFFFFF', 
               fontFamily: 'IBM Plex Mono, monospace',
               fontSize: '0.65rem',
               letterSpacing: '0.1em',

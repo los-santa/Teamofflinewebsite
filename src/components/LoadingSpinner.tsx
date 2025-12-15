@@ -5,8 +5,8 @@ export default function LoadingSpinner({ size = 40 }: { size?: number }) {
       style={{
         width: `${size}px`,
         height: `${size}px`,
-        border: '3px solid rgba(245, 230, 211, 0.3)',
-        borderTopColor: '#F5E6D3',
+        border: '3px solid rgba(255, 255, 255, 0.3)',
+        borderTopColor: '#FFFFFF',
         borderRadius: '50%',
         animation: 'spin 1s linear infinite'
       }}
