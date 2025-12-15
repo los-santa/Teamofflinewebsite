@@ -27,14 +27,34 @@ export default function App() {
           `https://${projectId}.supabase.co`,
           publicAnonKey
         );
-        const { data, error } = await supabase.auth.getSession();
         
-        if (!error && data.session) {
-          setUserEmail(data.session.user.email || null);
-          setAccessToken(data.session.access_token);
+        // Check for OAuth callback
+        const { data: authData, error: authError } = await supabase.auth.getSession();
+        
+        if (!authError && authData.session) {
+          setUserEmail(authData.session.user.email || null);
+          setAccessToken(authData.session.access_token);
+          console.log('User logged in:', authData.session.user.email);
         }
+
+        // Listen for auth state changes (for OAuth redirects)
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+          if (session) {
+            setUserEmail(session.user.email || null);
+            setAccessToken(session.access_token);
+            console.log('Auth state changed:', session.user.email);
+          } else {
+            setUserEmail(null);
+            setAccessToken(null);
+          }
+        });
+
+        return () => {
+          subscription.unsubscribe();
+        };
       } catch (error) {
         // Silently handle error - session check is optional
+        console.error('Session check error:', error);
       }
     };
 

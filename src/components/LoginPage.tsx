@@ -260,29 +260,6 @@ export default function LoginPage({ onBack, onLoginSuccess, onSignupClick }: Log
               </button>
             </div>
           </form>
-
-          <div className="mt-8 p-4" style={{ 
-            backgroundColor: 'rgba(255, 255, 255, 0.05)',
-            border: '1px solid rgba(255, 255, 255, 0.1)'
-          }}>
-            <p style={{
-              fontFamily: 'IBM Plex Mono, monospace',
-              fontSize: '0.625rem',
-              letterSpacing: '0.05em',
-              opacity: 0.6,
-              lineHeight: '1.6'
-            }}>
-              NOTE: To enable Google login, you must complete the setup at Supabase Dashboard. 
-              Visit <a 
-                href="https://supabase.com/docs/guides/auth/social-login/auth-google" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                style={{ textDecoration: 'underline', color: '#FFFFFF' }}
-              >
-                this guide
-              </a> for instructions.
-            </p>
-          </div>
         </div>
       </div>
     </div>
