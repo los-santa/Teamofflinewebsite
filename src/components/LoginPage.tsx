@@ -51,9 +51,15 @@ export default function LoginPage({ onBack, onLoginSuccess, onSignupClick }: Log
         `https://${projectId}.supabase.co`,
         publicAnonKey
       );
+      
+      console.log('OAuth Start - Project ID:', projectId);
+      console.log('OAuth Start - Redirect URL:', window.location.origin);
 
       const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google'
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin,
+        },
       });
 
       if (error) {
