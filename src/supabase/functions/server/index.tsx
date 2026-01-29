@@ -241,6 +241,51 @@ app.post("/make-server-7d6c9568/news", async (c) => {
   }
 });
 
+// Upload icon endpoint
+app.post("/make-server-7d6c9568/upload-icon", async (c) => {
+  try {
+    const formData = await c.req.formData();
+    const file = formData.get('file') as File;
+    const password = formData.get('password') as string;
+
+    if (!file || !password) {
+      return c.json({ error: 'File and password are required' }, 400);
+    }
+
+    // Verify password (using the same one as news for consistency)
+    if (password !== '5824397') {
+      return c.json({ error: 'Incorrect password' }, 403);
+    }
+
+    // Get bucket name (idempotently create if needed)
+    const bucketName = 'make-7d6c9568-assets';
+    const { data: buckets } = await supabase.storage.listBuckets();
+    const bucketExists = buckets?.some(bucket => bucket.name === bucketName);
+    if (!bucketExists) {
+      await supabase.storage.createBucket(bucketName, { public: false });
+    }
+
+    // Convert file to array buffer for upload
+    const arrayBuffer = await file.arrayBuffer();
+    const { error: uploadError } = await supabase.storage
+      .from(bucketName)
+      .upload('icon.png', arrayBuffer, {
+        contentType: file.type,
+        upsert: true
+      });
+
+    if (uploadError) {
+      console.log('Storage upload error:', uploadError);
+      return c.json({ error: 'Failed to upload icon', details: uploadError.message }, 500);
+    }
+
+    return c.json({ success: true, message: 'Icon updated successfully' });
+  } catch (error) {
+    console.log('Server error during icon upload:', error);
+    return c.json({ error: 'Internal server error', details: String(error) }, 500);
+  }
+});
+
 // Sign up endpoint
 app.post("/make-server-7d6c9568/signup", async (c) => {
   try {
