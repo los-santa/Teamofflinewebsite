@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
-import { User, Database, Shield, Clock, Download, HardDrive } from 'lucide-react';
+import { User, Database, Shield, Clock, Download, HardDrive, Camera, Edit2 } from 'lucide-react';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 interface ProfilePageProps {
   userEmail: string;
@@ -53,22 +54,37 @@ export default function ProfilePage({ userEmail, onBack, onLogout }: ProfilePage
               className="p-8 border-2 border-white"
             >
               <div className="flex flex-col items-center text-center mb-8">
-                <div 
-                  className="w-32 h-32 rounded-full border-4 border-white flex items-center justify-center mb-6 overflow-hidden bg-white"
-                  style={{ boxShadow: '0 0 0 4px #000000, 0 0 0 6px #FFFFFF' }}
-                >
-                  <User size={64} color="#000000" strokeWidth={1.5} />
+                <div className="relative group">
+                  <div 
+                    className="w-40 h-40 rounded-full border-4 border-white flex items-center justify-center mb-6 overflow-hidden bg-white"
+                    style={{ boxShadow: '0 0 0 4px #000000, 0 0 0 8px #FFFFFF' }}
+                  >
+                    <ImageWithFallback
+                      src="https://images.unsplash.com/photo-1744740606260-1881836349d2?q=80&w=400&h=400&auto=format&fit=crop"
+                      alt="Profile"
+                      className="w-full h-full object-cover grayscale"
+                    />
+                  </div>
+                  <button 
+                    className="absolute bottom-6 right-2 p-2 bg-black border-2 border-white rounded-full hover:bg-white hover:text-black transition-colors"
+                    title="Change Photo"
+                  >
+                    <Camera size={16} />
+                  </button>
                 </div>
-                <h2 
-                  className="uppercase mb-2"
-                  style={{ 
-                    fontFamily: 'League Spartan, sans-serif',
-                    fontSize: '1.5rem',
-                    letterSpacing: '0.1em'
-                  }}
-                >
-                  OFFLINE_USER
-                </h2>
+                <div className="flex items-center gap-2 mb-2">
+                  <h2 
+                    className="uppercase"
+                    style={{ 
+                      fontFamily: 'League Spartan, sans-serif',
+                      fontSize: '1.75rem',
+                      letterSpacing: '0.1em'
+                    }}
+                  >
+                    OFFLINE_USER
+                  </h2>
+                  <Edit2 size={14} className="opacity-30 hover:opacity-100 cursor-pointer" />
+                </div>
                 <p 
                   style={{ 
                     fontFamily: 'IBM Plex Mono, monospace',
