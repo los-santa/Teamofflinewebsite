@@ -19,7 +19,7 @@ export default function Hero() {
         >
           <div className="w-56 h-56 rounded-full overflow-hidden flex items-center justify-center bg-white p-4">
             <ImageWithFallback
-              src="https://images.unsplash.com/photo-1637401647793-1fc377447618?q=80&w=600&h=600&auto=format&fit=crop"
+              src="https://teamoffline-homepage-assets.vercel.app/fulllogo.png"
               alt="TEAM Offline Logo"
               className="w-full h-full object-contain grayscale brightness-90 contrast-125"
             />
