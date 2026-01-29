@@ -12,9 +12,10 @@ import DownloadPage from './components/DownloadPage';
 import NewsPage from './components/NewsPage';
 import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
+import ProfilePage from './components/ProfilePage';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'download' | 'news' | 'login' | 'signup'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'download' | 'news' | 'login' | 'signup' | 'profile'>('home');
   const [selectedProduct, setSelectedProduct] = useState<{ appName: string; description: string; trialLink?: string } | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -229,6 +230,16 @@ export default function App() {
     );
   }
 
+  if (currentPage === 'profile' && userEmail) {
+    return (
+      <ProfilePage 
+        userEmail={userEmail}
+        onBack={() => setCurrentPage('home')}
+        onLogout={handleLogout}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#000000', color: '#FFFFFF' }}>
       {/* Import fonts from Google Fonts */}
@@ -238,6 +249,7 @@ export default function App() {
         onNewsClick={() => setCurrentPage('news')} 
         onLoginClick={() => setCurrentPage('login')}
         onLogout={handleLogout}
+        onProfileClick={() => setCurrentPage('profile')}
         userEmail={userEmail}
       />
       <Hero />
